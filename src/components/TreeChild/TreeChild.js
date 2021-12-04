@@ -1,47 +1,66 @@
 import { useEffect, useState } from "react"
 import useCollapseChildrens from "../../utils/useCollapseChildrens/useCollapseChildrens"
+import { CollapseBrunch } from "../TreeBrunch/TreeMainBrunch"
 
-const TreeChild = ({treeData, collapse, margin})=>{
+const TreeChild = ({treeData})=>{
     const [data, setData] = useState([])
-    // const [isChildrenShow, setIsChildrenShow] = useState(false)
-    const [keys, setKeys] = useState([])
-
-    const marginLeft = {
-        margin: margin ? margin + 20 : 20
-    }
-
-    // const collapseAll = ()=>{
-    //     setIsChildrenShow(false)
-    // }
 
     const [isShow, handleStatus] = useCollapseChildrens()
 
-    useEffect(()=>{
-        setKeys(Object.keys(treeData))
-    }, [])
+    const onClickHandler = ()=>{
+        if(data.length){
+            handleStatus()
+            return
+        }
+    }
 
-    useEffect(()=>{
-        
-        setData(treeData[keys[1]])
-        
-    }, [keys])
+    useEffect(()=>{        
+        for (let key in treeData){
+            console.log(key)
+            if(Array.isArray(treeData[key])){   
+                setData(treeData[key])
+            }
+        }
+    }, [treeData])
 
     return(
         <>
-        <div style={{marginLeft: (marginLeft.margin + 'px')}} onClick={handleStatus}>{treeData.name}</div>
-        {isShow &&
-            data.map((children, indx) => {
-                return(
-                    <TreeChild
-                        margin={marginLeft.margin}
-                        key={treeData.name + indx}
-                        treeData={children}
-                        collapse = {collapse ? collapse : handleStatus}
-                    />
-                )
-            })
+        {data.length ?
+
+            <div style={{marginLeft: '20px'}}>
+                <p onClick={onClickHandler}>{treeData.name}</p>
+
+                {isShow &&
+                    data.map((children, indx) => {
+                        return(
+                            <TreeChild
+                                key={treeData.name + indx}
+                                treeData={children}
+                            />
+                        )
+                    })
+                }
+                
+            </div>
+
+            :
+
+            <CollapseBrunch.Consumer>
+                {   
+                    (value) => {
+                        return (
+                            <div style={{marginLeft: '20px'}}>
+
+                                <p onClick={value}>{treeData.name}</p>
+
+                            </div>
+                        )
+                    }
+                }
+            </CollapseBrunch.Consumer>
         }
         </>
+        
     )
 }
 

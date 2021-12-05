@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
-const useCollapseChildrens = ()=>{
+const useCollapseChildren = ()=>{
     const [isShow, setIsShow] = useState(false)
 
     const handleStatus = ()=>{
@@ -10,4 +10,4 @@ const useCollapseChildrens = ()=>{
     return [isShow, handleStatus]
 }
 
-export default useCollapseChildrens
+export default useCollapseChildren

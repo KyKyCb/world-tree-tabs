@@ -1,0 +1,28 @@
+.tree-child__container{
+    width: 300px;
+    min-height: 100px;
+    max-height: fit-content;
+
+    
+
+    margin-left: 50px;
+
+}
+
+.tree-child__text,
+.tree-child__last-child-text{
+    width: 100%;
+    min-height: 100px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-transform: uppercase;
+    
+    background-color:forestgreen;
+}
+
+.tree-child__last-child-text{
+    background-color:firebrick;
+}

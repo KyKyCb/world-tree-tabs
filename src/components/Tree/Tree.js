@@ -1,78 +1,14 @@
-import TreeMainBrunch from "../TreeBrunch/TreeMainBrunch"
+import { useSelector } from "react-redux"
+import TreeMainBranch from "../TreeBranch/TreeMainBranch"
 
 const Tree = ()=>{
-
-    const fakeData = [
-        {
-            "name": "Parent1",
-            "children": [
-            {
-                "name": "children1",
-                "children": [
-                {
-                    "name": "children1",
-                    "children": [
-                    {
-                        "name": "children1",
-                        "children": [
-                        {
-                            "name": "children1",
-                            "children": [
-                            ]
-                        }
-                        ]
-                    }
-                    ]
-                }
-                ]
-            }, 
-            {
-                "name": "children1",
-                "children": [
-                // ...
-                ]
-            },
-            // ...
-            ]
-        }, {
-            "name": "Parent2",
-            "children": [
-                {
-                    "name": "children1",
-                    "children": [
-                    {
-                        "name": "children1",
-                        "children": [
-                        {
-                            "name": "children1",
-                            "children": [
-                            {
-                                "name": "children1",
-                                "children": [
-                                ]
-                            }
-                            ]
-                        }
-                        ]
-                    }
-                    ]
-                }, 
-                {
-                    "name": "children1",
-                    "children": [
-                    // ...
-                    ]
-                },
-                // ...
-                ]
-        },
-        // ...
-        ]
+    const continents = useSelector(state => state.continents)
+    
     return(
         <div>
-            {fakeData.map((data, indx) => {
+            {continents.map((data, indx) => {
                 return (
-                    <TreeMainBrunch
+                    <TreeMainBranch
                         key={indx}
                         treeData={data}
                     />

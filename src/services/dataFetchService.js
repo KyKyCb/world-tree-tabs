@@ -14,14 +14,13 @@ class WorldData {
             })
 
             if(!result.ok){
-                return {type: 'error', message: 'Something went wrong. Try again later'}
+                throw new Error('Something went wrong. Try again later')
             }
 
             return result.json()
 
         } catch (error) {
-            console.error(error)
-            return {type: 'error', message: 'Something went wrong. Try again later'}
+            throw new Error('Something went wrong. Try again later')
         }
     }
 

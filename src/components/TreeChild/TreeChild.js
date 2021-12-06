@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
+import { CSSTransition, TransitionGroup } from "react-transition-group"
 import useCollapseChildren from "../../utils/useCollapseChildren/useCollapseChildren"
+import Button from "../Button/Button"
 import { CollapseBranch } from "../TreeBranch/TreeMainBranch"
 
 import './TreeChild.css'
@@ -18,8 +20,7 @@ const TreeChild = ({treeData})=>{
 
     useEffect(()=>{        
         for (let key in treeData){
-            if(Array.isArray(treeData[key])){   
-
+            if(Array.isArray(treeData[key])){
                 setData(treeData[key])
             }
         }
@@ -32,14 +33,11 @@ const TreeChild = ({treeData})=>{
                     (value) => {
                         return (
                             <div className="tree-child__container">
-
-                                <p 
+                                <Button
                                     onClick={value}
-                                    className="tree-child__last-child-text"
-                                >
-                                    {treeData.name}
-                                </p>
-
+                                    name={treeData.name}
+                                    className="last-child"
+                                />
                             </div>
                         )
                     }
@@ -49,26 +47,33 @@ const TreeChild = ({treeData})=>{
     }
 
     return(
-
         <div className="tree-child__container">
-            <p 
+            <Button
                 onClick={onClickHandler}
-                className="tree-child__text"
-            >
-                {treeData.name}
-            </p>
-
-            {isShow &&
-                data.map((children, indx) => {
-                    return(
-                        <TreeChild
-                            key={treeData.name + indx}
-                            treeData={children}
-                        />
-                    )
-                })
-            }
+                name={treeData.name}
+            />
             
+            <TransitionGroup>
+                {isShow &&
+                    data.map((children, indx) => {
+                        return(
+                            <CSSTransition
+                                key={treeData.name + indx}
+                                timeout={500}
+                                classNames='child-leave'
+                            >
+                                <div className='css-transition'>
+                                    <TreeChild
+                                        treeData={children}
+                                    />
+                                </div>
+                                
+                            </CSSTransition>
+                        )
+                    })
+                }
+            </TransitionGroup>
+
         </div>
         
     )

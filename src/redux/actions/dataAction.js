@@ -28,19 +28,23 @@ const asyncChangeData = (continentCode) =>{
         try {
 
             dispatch(dataLoading())
+
             if(continentCode){
                 const countries = await WorldData.getAllCountriesByContinent(continentCode)
-                
-                dispatch(allCountries(countries.data.countries, continentCode))
+                setTimeout(()=>{
+                    dispatch(allCountries(countries.data.countries, continentCode))
+                }, 500)
                 return
             }
 
             const continents = await WorldData.getAllContinents()
-            dispatch(allContinents(continents.data.continents))
+            setTimeout(()=>{
+                dispatch(allContinents(continents.data.continents))
+            }, 500)
 
         } catch (error) {
-            dispatch(sendError({type: 'error', message: JSON.stringify(error)}))
-            console.error()
+            dispatch(sendError({type: 'error', message: `${error}`}))
+            console.error(error)
         }
     }
 }

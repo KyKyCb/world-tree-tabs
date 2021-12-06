@@ -1,28 +1,30 @@
 .tree-child__container{
-    width: 300px;
-    min-height: 100px;
-    max-height: fit-content;
-
-    
-
     margin-left: 50px;
+    margin-top: 30px;
 
+    background-image: none;
+
+    /* transform: translate(-100px, 0); */
+
+    transition: all ease-in-out 0.5s;
 }
 
-.tree-child__text,
-.tree-child__last-child-text{
-    width: 100%;
-    min-height: 100px;
+.last-child{
+    box-shadow: none;
+    border: 1px solid #BBBFCD;
+}
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    text-transform: uppercase;
+.css-transition,
+.child-leave-exit-active{
+    opacity: 0;
+    transform: translate(0, 0);
     
-    background-color:forestgreen;
-}
+    transition: all ease-in-out 0.5s;
 
-.tree-child__last-child-text{
-    background-color:firebrick;
+}
+.child-leave-enter-active,
+.child-leave-enter-done{
+    opacity: 1;
+    transform: translate(50px, 0);
+
 }

@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast, ToastContainer, useToast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { CSSTransition, Transition, TransitionGroup } from 'react-transition-group';
 
 import asyncChangeData from '../redux/actions/dataAction';
 import useCollapseChildren from '../utils/useCollapseChildren/useCollapseChildren';
@@ -16,6 +17,7 @@ function App() {
     const state = useSelector( state => state )
 
     const [isShow, handleStatus] = useCollapseChildren()
+    const [toastId, setToastId] = useState('')
 
     const onClickHandler = ()=>{
         handleStatus()
@@ -26,10 +28,17 @@ function App() {
     }
 
     useEffect(()=>{
-        if(state.error){
-            toast.error('Whoops! Something went wrong!')
+        if(state.isLoading){
+            setToastId(toast.loading('Waiting data...'))
         }
-    }, [state.error])
+        if(!state.isLoading && !state.error){
+            toast.update(toastId, { render: "All is good", type: "success", isLoading: false, autoClose: 1000 })
+        }
+        if(state.error){
+            toast.update(toastId, { render: "Whoops! Something went wrong!", type: "error", isLoading: false, autoClose: 1000 })
+        }
+
+    }, [state.isLoading, state.error])
 
     return (
         <div className="App">
@@ -37,12 +46,15 @@ function App() {
                 name={'world'}
                 onClick={onClickHandler}
             />
-            {isShow && <Tree/>}
+
+            <Tree
+                isShow = {isShow}
+            />
             
             <ToastContainer
                 position="top-center"
-                autoClose={2000}
-                hideProgressBar ={true}
+                autoClose={1000}
+                hideProgressBar ={false}
                 newestOnTop={false}
                 closeOnClick ={true}
                 rtl={false}
@@ -50,6 +62,8 @@ function App() {
                 draggable
                 pauseOnHover
             />
+
+            {state.isLoading && <div id={'overlay'}></div>}
         </div>
     );
 }

@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
+
+import { CSSTransition, TransitionGroup } from "react-transition-group"
+
 import asyncChangeData from "../../redux/actions/dataAction"
 import useCollapseChildren from "../../utils/useCollapseChildren/useCollapseChildren"
+import Button from "../Button/Button"
 import TreeChild from "../TreeChild/TreeChild"
 
 import './TreeMainBranch.css'
@@ -37,26 +41,28 @@ const TreeMainBranch = (props)=>{
 
     return(
         <CollapseBranch.Provider value={handleStatus}>
-            <div className="main-branch__container">
-                <p 
-                    onClick={onClickHandler}
-                    className='main-branch__text'
-                >
-                    {props.treeData.name}
-                </p>
 
-                {isShow &&
-                    data.map((children, indx) => {
-                        return(
-                            <TreeChild
-                                key={props.treeData.name + indx}
-                                treeData={children}
-                            />
-                        )
-                    })
-                }
+            <div className="main-branch__container">
+                <Button
+                    onClick={onClickHandler}
+                    name={props.treeData.name}
+                />
+                <CSSTransition in={isShow} timeout={500} className='leaves'>
+                    <div>
+                            {data.map((children, indx) => {
+                                return(
+                                        <TreeChild
+                                            key={props.treeData.name + indx}
+
+                                            treeData={children}
+                                        />
+                                )
+                            })}
+                    </div>
+                </CSSTransition>
 
             </div>
+
         </CollapseBranch.Provider>
     )
 }

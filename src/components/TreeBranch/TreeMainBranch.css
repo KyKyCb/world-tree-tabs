@@ -1,21 +1,66 @@
 .main-branch__container{
-    width: 300px;
-    min-height: 100px;
-    max-height: fit-content;
-
-    
-
     margin-left: 50px;
+    margin-top: 30px;
+    
+    opacity: 0;
+
+    transition: all ease-in-out 0.5s;
+
+    transform: translate(-100px, 0);
 }
 
-.main-branch__text{
-    width: 100%;
-    min-height: 100px;
+.branches-enter-active,
+.branches-enter-done,
+.leaves-enter-active,
+.leaves-enter-done{
+    opacity: 1;
+    transform: translate(0, 0);
+}
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.branches-exit-done,
+.leaves-exit-done{
+    opacity: 0;
+
+    transform: translate(-100px, 0);
+}
+
+.leaves{
+    transform: translate(0, 0);
+    opacity: 0;
+
+    display: none;
+
+    transition: all ease-in-out 0.5s;
+}
+
+.leaves.enter-active{
+    display: block;
+}
+
+.leaves.enter-done{
+    transform: translate(100px, 0);
+    opacity: 1;
+
+    display: block;
+    transition: all ease-in-out 0.5s;
     
-    background-color: blueviolet;
-    text-transform: uppercase;
+}
+
+.exit{
+    transform: translate(100px, 0);
+    opacity: 1;
+
+    display: block;
+}
+
+.leaves.exit-active{
+    transform: translate(0, 0);
+    opacity: 0;
+
+    display: block;
+
+}
+
+.leaves.exit-done{
+    display: none;
 }

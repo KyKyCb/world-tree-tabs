@@ -1,11 +1,11 @@
-import { useEffect, useLayoutEffect, useState } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { toast, ToastContainer, useToast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { CSSTransition, Transition, TransitionGroup } from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';
 
 import asyncChangeData from '../redux/actions/dataAction';
-import { globalParams } from '../redux/actions/generateAction';
+import { generateDataAction, globalParams } from '../redux/actions/generateAction';
 import { switchDataType } from '../redux/actions/switchDataAction';
 import useCollapseChildren from '../utils/useCollapseChildren/useCollapseChildren';
 
@@ -20,7 +20,6 @@ function App() {
 
     const worldData = useSelector( state => state.worldData )
     const genData = useSelector( state => state.genData )
-    
     const renderType = useSelector( state => state.renderType.isWorld)
 
     const [isShow, handleStatus] = useCollapseChildren()
@@ -30,10 +29,9 @@ function App() {
         if(!worldData.continents.length && !isShow && renderType){
             dispatch(asyncChangeData())
 
-            handleStatus()
         }
-        if(!renderType){
-            dispatch(asyncChangeData())
+        if(!renderType && !genData.data.length && !isShow){
+            dispatch(generateDataAction(genData.depth, genData.nodes))
         }
 
         handleStatus()
@@ -63,22 +61,21 @@ function App() {
             
             <div className="app__switcher-container">
                 <div>
-                {renderType ?
-                    <Button
-                        name={'world'}
-                        onClick={onClickHandler}
-                    />
-                    :
-                    <Button
-                        name={'Generated data'}
-                        onClick={onClickHandler}
-                    />
-                }
+                    {renderType ?
+                        <Button
+                            name={'world'}
+                            onClick={onClickHandler}
+                        />
+                        :
+                        <Button
+                            name={'Generated data'}
+                            onClick={onClickHandler}
+                        />
+                    }
 
-                <Tree
-                    isShow = {isShow}
-                    isWorldRender = {renderType}
-                />
+                    <Tree
+                        isShow = {isShow}
+                    />
                 </div>
 
                 <Button

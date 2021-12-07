@@ -9,7 +9,7 @@ const Form = (props)=>{
     const {onSubmit} = props
 
     const onChangeHandler = (event)=>{
-        const value = parseInt(event.target.value.trim())
+        let value = parseInt(event.target.value.trim())
 
         if(value <= 0 || !value){
             value = 1
@@ -22,17 +22,17 @@ const Form = (props)=>{
             case 'nodes':
                 setState({...state, nodes: value})
                 break
+            default:
+                return
         }
     }
 
-    const onSubmitHandler = (event)=>{
-        event.preventDefault()
-
+    const onSubmitHandler = ()=>{
         onSubmit(state)
     }
 
     return(
-        <form className="form" onSubmit={onSubmitHandler}>
+        <form className="form">
 
             <label className="form__label">
                 <span className="label__text">Depth</span>
@@ -57,6 +57,7 @@ const Form = (props)=>{
             <Button
                 className="form__button"
                 name="apply"
+                onClick={onSubmitHandler}
             />
         </form>
     )

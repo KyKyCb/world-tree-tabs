@@ -6,7 +6,9 @@ import { CollapseBranch } from "../TreeBranch/TreeMainBranch"
 
 import './TreeChild.css'
 
-const TreeChild = ({treeData})=>{
+const TreeChild = (props)=>{
+    const {treeData} = props
+
     const [data, setData] = useState([])
 
     const [isShow, handleStatus] = useCollapseChildren()
@@ -24,7 +26,7 @@ const TreeChild = ({treeData})=>{
                 setData(treeData[key])
             }
         }
-    }, [treeData])
+    }, [props])
 
     if(!data.length){
         return(

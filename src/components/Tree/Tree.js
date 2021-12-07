@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+
 import { useSelector } from "react-redux"
 import { CSSTransition, TransitionGroup } from "react-transition-group"
 import TreeMainBranch from "../TreeBranch/TreeMainBranch"
@@ -9,12 +9,15 @@ const Tree = (props)=>{
 
     const continents = useSelector(state => state.worldData.continents)
     const genData = useSelector(state => state.genData.data)
+    
+    const renderType = useSelector( state => state.renderType.isWorld)
 
-    if(props.isShow && props.isWorldRender){
+    if(renderType){
         return(
             <div className="tree__container">
+
                 <TransitionGroup>
-                    {
+                    {props.isShow &&
                         continents.map((data, indx) => {
                             return (
                                 <CSSTransition key={indx} timeout={500} classNames="branches">
@@ -26,29 +29,30 @@ const Tree = (props)=>{
                         })
                     }
                 </TransitionGroup>
+
             </div>
         )
     }
 
-    if(props.isShow && !props.isWorldRender){
-        return(
-            <div className="tree__container">
-                <TransitionGroup>
-                        {
-                            continents.map((data, indx) => {
-                                return (
-                                    <CSSTransition key={indx} timeout={500} classNames="branches">
-                                        <TreeMainBranch
-                                            treeData={data}
-                                        />
-                                    </CSSTransition>
-                                )
-                            })
-                        }
-                </TransitionGroup>
-            </div>
-        )
-    }
+    return ( 
+        <div className="tree__container">
+
+            <TransitionGroup>
+                    {props.isShow &&
+                        genData.map((data, indx) => {
+                            return (
+                                <CSSTransition key={indx} timeout={500} classNames="branches">
+                                    <TreeMainBranch
+                                        treeData={data}
+                                    />
+                                </CSSTransition>
+                            )
+                        })
+                    }
+            </TransitionGroup>
+            
+        </div>
+    )
 }
 
 export default Tree

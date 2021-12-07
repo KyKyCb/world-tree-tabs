@@ -1,6 +1,8 @@
-import optimizedGenerator from "../../utils/optimizedGenerator/optimizedGenerator";
+import { toast } from "react-toastify";
+import dataGenerator from "../../utils/dataGenerator/dataGenerator";
 import {
     RESET_GLOBAL_PARAMS,
+    SET_GENERATED_DATA,
     SET_GLOBAL_PARAMS
 } from "./actionTypes";
 
@@ -12,9 +14,13 @@ export const resetParams = ()=>{
     return {type: RESET_GLOBAL_PARAMS}
 }
 
-const generateData = (globalDepth, globalQuantity, depthLevel, currentQuantity )=>{
+export const generateDataAction = (globalDepth, globalQuantity)=>{
 
-    const data = optimizedGenerator(globalDepth, globalQuantity, depthLevel, currentQuantity)
+    const toastId = toast.loading('Waiting data...')
     
-    return {}
+    const data = dataGenerator(globalDepth, globalQuantity)
+
+    toast.update(toastId, {render: 'All good!', type: "success", isLoading: false, autoClose: 1000})
+
+    return {type: SET_GENERATED_DATA, payload: data}
 }

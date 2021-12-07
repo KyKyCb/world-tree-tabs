@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
-import { CSSTransition, TransitionGroup } from "react-transition-group"
+import { CSSTransition } from "react-transition-group"
 
 import asyncChangeData from "../../redux/actions/dataAction"
 import useCollapseChildren from "../../utils/useCollapseChildren/useCollapseChildren"
@@ -16,13 +16,15 @@ const TreeMainBranch = (props)=>{
 
     const dispatch = useDispatch()
 
+    const renderType = useSelector( state => state.renderType.isWorld)
+
     const [data, setData] = useState([])
 
     const [isShow, handleStatus] = useCollapseChildren()
 
     const onClickHandler = ()=>{
 
-        if(!data.length && !isShow){
+        if(!data.length && !isShow && renderType){
             dispatch(asyncChangeData(props.treeData.code))
         }
 

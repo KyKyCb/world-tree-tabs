@@ -5,7 +5,7 @@
 const optimizedGenerator = (globalDepth = 1, globalQuantity = 1, depthLevel = 1, currentQuantity = 0)=>{
     const data = []
 
-    if(globalDepth <= depthLevel){
+    if( depthLevel > globalDepth ){
         return data
     }
 
@@ -16,7 +16,7 @@ const optimizedGenerator = (globalDepth = 1, globalQuantity = 1, depthLevel = 1,
     const quantity = (globalQuantity-currentQuantity > 20) ? 20 : (globalQuantity-currentQuantity)
 
     for(let k = currentQuantity; k<currentQuantity+quantity; k++){
-        data.push({name: `child at lvl: ${depthLevel}`, code: Math.random(), data: []})
+        data.push({name: `child at lvl: ${depthLevel}`, code: Math.random(), depth: depthLevel, data: []})
     }
     
     return data
